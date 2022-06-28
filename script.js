@@ -12,11 +12,11 @@ const current0 = document.getElementById('current--0');
 const current1 = document.getElementById('current--1');
 const btnNew = document.querySelector('.btn--new');
 
-let curr_score = 0, playingAble = true, activePlayer = 0;
+let curr_score = 0, playingAble = true ,activePlayer = 0, randomNumber;
 
 // switch player
 const swtichPlayer = function () {
-    console.log("ActivePlyer "+activePlayer);
+    console.log("ActivePlyer " + activePlayer);
     document.getElementById(`current--${activePlayer}`).innerHTML = 0;
     curr_score = 0;
     activePlayer = activePlayer === 0 ? 1 : 0;
@@ -36,10 +36,11 @@ function reset() {
     player0.classList.add('player--active');
     player1.classList.remove('player--active');
 }
+reset();
 
 function rollDice() {
     if (playingAble) {
-        let randomNumber = Math.trunc(Math.random() * 6) + 1;
+        randomNumber =Math.trunc(Math.random() * 6) + 1;
 
         dice.classList.remove('hidden');
         dice.src = `dice-${randomNumber}.png`;
@@ -47,7 +48,6 @@ function rollDice() {
             curr_score += randomNumber;
             document.getElementById(`current--${activePlayer}`).innerHTML = curr_score;
         } else {
-            document.getElementById(`score--${activePlayer}`).innerHTML = 0;
             swtichPlayer();
         }
     }
@@ -58,7 +58,7 @@ function holdButton() {
         document.getElementById(`score--${activePlayer}`).innerHTML -= (-Number(curr_score));
 
         if (document.getElementById(`score--${activePlayer}`).innerHTML >= 100) {
-            playing = false;
+            playingAble = false;
             dice.classList.add('hidden');
 
             document
@@ -67,7 +67,7 @@ function holdButton() {
             document
                 .querySelector(`.player--${activePlayer}`)
                 .classList.remove('player--active');
-        }  else {
+        } else {
             swtichPlayer();
         }
     }
@@ -77,6 +77,5 @@ btnRoll.addEventListener('click', rollDice);
 
 // press the hold button
 btnHold.addEventListener('click', holdButton);
-
 // reset the game
-btnNew.addEventListener('click',reset);
+btnNew.addEventListener('click', reset);
